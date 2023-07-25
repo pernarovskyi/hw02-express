@@ -1,15 +1,27 @@
 const Joi = require("joi");
+const { contactEmailRegex, contactPhoneRegex } = require("../constants/contactConstants.js");
 
 const contactsSchema = Joi.object({
-    name: Joi.string().required(),
+    name: Joi.string().min(3).required(),
     email: Joi.string()
-      .regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
+      .min(6)
+      .regex(contactEmailRegex)
       .message("Wrong email format")
       .required(),
     phone: Joi.string()
-      .regex(/\(\d{3}\) \d{3}-\d{4}/)
+      .min(6)
+      .regex(contactPhoneRegex)
       .message("Wrong format. Example: (000) 111-1234")
       .required(),
+    favorite: Joi.boolean(),
   });
 
-  module.exports = contactsSchema;
+  const contactsUpdateFavoriteSchema = Joi.object({
+    favorite: Joi.boolean()    
+    .required(),    
+  });
+
+  module.exports = {
+    contactsSchema,
+    contactsUpdateFavoriteSchema,
+  };
