@@ -4,19 +4,24 @@ const { userEmailRegex } = require("../constants/userConstants.js");
 
 const userSchema = new Schema(
   {
-    name: {
+    password: {
       type: String,
-      required: true,
+      required: [true, 'Password is required'],
     },
     email: {
       type: String,
+      required: [true, 'Email is required'],
       match: userEmailRegex,
       unique: true,
-      required: true,
     },
-    password: {
+    subscription: {
       type: String,
-      required: true,
+      enum: ["starter", "pro", "business"],
+      default: "starter"
+    },
+    token: {
+      type: String,
+      default: null,
     },
   },
   { versionKey: false, timestamps: true }
