@@ -11,7 +11,7 @@ const contactsSchema = Joi.object({
     phone: Joi.string()
       .min(6)
       .regex(contactPhoneRegex)
-      .message("Wrong format. Example: (000) 111-1234")
+      .message("Wrong phone format. Example: (000) 111-1234")
       .required(),
     favorite: Joi.boolean(),
   });
