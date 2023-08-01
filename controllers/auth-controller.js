@@ -57,7 +57,17 @@ const signIn = async (req, res) => {
   });
 };
 
+const getCurrent = (req,res) => {
+    const { email, subscription } = req.user;
+
+    res.json({        
+        email,
+        subscription,
+    });
+}
+
 module.exports = {
   signUp: ctrlWrapper(signUp),
   signIn: ctrlWrapper(signIn),
+  getCurrent: ctrlWrapper(getCurrent),
 };
