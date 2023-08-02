@@ -3,7 +3,9 @@ const router = express.Router();
 const { contactsSchema, contactsUpdateFavoriteSchema } = require("../../schemas/index.js");
 const { validateBody } = require("../../decorators/index.js");
 const { contactsController } = require("../../controllers/index.js");
-const { isValidId, isEmptyBody } = require("../../middlewars/index.js");
+const { isValidId, isEmptyBody, authenticate } = require("../../middlewars/index.js");
+
+router.use(authenticate);
 
 router.get("/", contactsController.getAll);
 

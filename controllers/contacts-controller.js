@@ -3,7 +3,21 @@ const { HttpError } = require("../helpers/index.js");
 const { ctrlWrapper } = require("../decorators/index.js");
 
 const getAll = async (req, res) => {
-  const contacts = await Contact.find();
+  const { _id: owner } = req.user;
+  
+  const { page = 1, limit = 20, favorite } = req.query;
+  const skip = (page - 1) * limit;
+  
+  const query = { owner };
+  
+  if (favorite === 'true') {
+    query.favorite = true;
+  }
+
+  const contacts = await Contact
+    .find(query, "-createdAt -updatedAt", { skip, limit })
+    .populate("owner", "email subscription");
+  
   res.json({
     status: "success",
     code: 200,
@@ -14,7 +28,9 @@ const getAll = async (req, res) => {
 };
 
 const add = async (req, res) => {
-  const result = await Contact.create(req.body);
+
+  const { _id: owner } = req.user;
+  const result = await Contact.create({ ...req.body, owner});
 
   res.status(201).json({
     status: "success",
@@ -27,7 +43,7 @@ const add = async (req, res) => {
 
 const getById = async (req, res) => {
   const { id } = req.params;
-  const result = await Contact.findById(id);
+  const result = await Contact.findById(id, "-createdAt -updatedAt");
 
   if (!result) {
     throw HttpError(404, `Contact with id=${id} not found`);
