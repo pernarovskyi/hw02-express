@@ -16,12 +16,15 @@ const userSchema = new Schema(
       unique: true,
     },
     subscription: {
-      type: String,
-      // enum: ["starter", "pro", "business"],
+      type: String,      
       enum: subscription,
       default: subscription.STARTER,
     },
     token: {
+      type: String,
+      default: null,
+    },
+    avatarURL: {
       type: String,
       default: null,
     },

@@ -25,8 +25,13 @@ const userSubscriptionSchema = Joi.object({
     .required(),
 });
 
+const userUpdateAvatarSchema = Joi.object({
+  avatar: Joi.object().required(),
+});
+
 module.exports = {
   userSignUpSchema,
   userSignInSchema,
   userSubscriptionSchema,
+  userUpdateAvatarSchema,
 };
