@@ -2,6 +2,7 @@ const User = require("../models/user.js");
 const { HttpError } = require("../helpers/index.js");
 const { ctrlWrapper } = require("../decorators/index.js");
 const { hash, compare } = require("bcryptjs");
+const gravatar = require("gravatar");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 
@@ -17,7 +18,10 @@ const signUp = async (req, res) => {
   }
 
   const hashPassword = await hash(password, 10);
-  const newUser = await User.create({ ...req.body, password: hashPassword });
+  
+  const httpUrl = gravatar.url(email, {protocol: 'http', s: '300'});
+ 
+  const newUser = await User.create({ ...req.body, password: hashPassword, avatarURL: httpUrl });
 
   res.status(201).json({
     user: {
