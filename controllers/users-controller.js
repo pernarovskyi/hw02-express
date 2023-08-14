@@ -70,7 +70,25 @@ const updateAvatar = async (req, res) => {
   });
 };
 
+const verifyToken = async (req, res) => {
+  const { verificationToken } = req.params;
+  const user = await User.findOne({verificationToken});
+
+  if (!user) {
+    throw HttpError(404, "User not found.");
+  }
+  
+  await User.findByIdAndUpdate(user._id, {verificationToken: null, verify: true});
+
+  res.json({
+    status: "success",
+    code: 200,
+    message: "Verification successful",
+  });
+}
+
 module.exports = {
   updateSubscription: ctrlWrapper(updateSubscription),
   updateAvatar: ctrlWrapper(updateAvatar),
+  verifyToken: ctrlWrapper(verifyToken),
 };
