@@ -10,5 +10,6 @@ authRouter.post("/signup", isEmptyBody, validateBody(userSignUpSchema), authCont
 authRouter.post("/login", isEmptyBody, validateBody(userSignInSchema), authController.signIn);
 authRouter.get("/current", authenticate, authController.getCurrent);
 authRouter.post("/logout", authenticate, authController.logout);
+authRouter.get("/verify/:verificationToken", authController.verifyToken);
 
 module.exports = authRouter;

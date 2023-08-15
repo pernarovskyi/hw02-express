@@ -8,6 +8,5 @@ const userRouter = express.Router();
 
 userRouter.patch("/", authenticate, validateBody(userSubscriptionSchema), userController.updateSubscription);
 userRouter.patch("/avatars", authenticate, upload.single("avatar"), userController.updateAvatar);
-userRouter.get("/verify/:verificationToken", userController.verifyToken);
 
 module.exports = userRouter;
