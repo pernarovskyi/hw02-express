@@ -112,14 +112,37 @@ const verifyToken = async (req, res) => {
   res.json({
     status: "success",
     code: 200,
-    message: "Verification successful",
+    message: "Verification successful.",
+  });
+}
+
+const resendEmailVerify = async (req, res) => {
+  const { email } = req.body;
+
+  const user = await User.findOne({email});
+
+  if(!user) {
+    throw HttpError(404, "Email not found.");
+  }
+
+  if(user.verify) {
+    throw HttpError(400, "This email is verified.");
+  }
+
+  await sendVerificationEmail(email, user.verificationToken);
+
+  res.json({
+    status: "success",
+    code: 200,
+    message: "Email has been sent to your mailbox. Please check."
   });
 }
 
 module.exports = {
   signUp: ctrlWrapper(signUp),
+  verifyToken: ctrlWrapper(verifyToken),
+  resendEmailVerify: ctrlWrapper(resendEmailVerify),
   signIn: ctrlWrapper(signIn),
   getCurrent: ctrlWrapper(getCurrent),
-  logout: ctrlWrapper(logout),
-  verifyToken: ctrlWrapper(verifyToken),
+  logout: ctrlWrapper(logout),  
 };

@@ -1,6 +1,5 @@
 const dotenv = require("dotenv");
 const sgMail = require("@sendgrid/mail");
-// const { ctrlWrapper } = require("../decorators/ctrlWrapper.js");
 
 dotenv.config();
 const { EMAIL_SENDER, BASE_URL, SENDGRID_API_KEY } = process.env;
