@@ -126,7 +126,7 @@ const resendEmailVerify = async (req, res) => {
   }
 
   if(user.verify) {
-    throw HttpError(400, "This email is verified.");
+    throw HttpError(400, "Verification has already been passed.");
   }
 
   await sendVerificationEmail(email, user.verificationToken);
