@@ -72,5 +72,5 @@ const updateAvatar = async (req, res) => {
 
 module.exports = {
   updateSubscription: ctrlWrapper(updateSubscription),
-  updateAvatar: ctrlWrapper(updateAvatar),
+  updateAvatar: ctrlWrapper(updateAvatar),  
 };
